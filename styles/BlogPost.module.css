@@ -1,0 +1,26 @@
+.mainContainer{
+    margin-top: 7rem;
+}
+.Head h1{
+    padding:0 6rem 0 6rem;
+}
+
+.author{
+    padding:0 6rem 0 6rem;
+}
+
+.mainBody{
+    display: grid;
+    grid-template-columns: 48rem 22rem;
+    grid-column-gap: 3rem;
+    padding:0 6rem 0 6rem;
+}
+
+.rImage{
+    width:81rem;
+}
+
+.content2{
+    grid-column-start: 1;
+    grid-column-end: 3;
+}
