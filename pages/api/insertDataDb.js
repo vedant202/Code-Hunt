@@ -4,7 +4,7 @@ const blogSchema = require('./blogPostSchema')
 const readline = require('readline-sync')
 
 
-function addData(title,author,para1,para2,para3){
+function addData(title,author,para1,para2,para3,slug){
     main.main().then(
         async ()=>{
             const blogModel = mongoose.model('Blogs',blogSchema.blogSchema)
@@ -16,7 +16,8 @@ function addData(title,author,para1,para2,para3){
                 img:null,
                 para1:para1,
                 para2:para2,
-                para3:para3
+                para3:para3,
+                slug:slug
             })
 
             await addBlog.save(function(err){
@@ -41,6 +42,7 @@ author = readline.question("Enter the name of author : ");
 para1 = readline.question("Enter para1 : ")
 para2 = readline.question("Enter para2 : ")
 para3 = readline.question("Enter para3 : ")
+slug = readline.question("Enter slug : ")
 
-addData(title,author,para1,para2,para3)
+addData(title,author,para1,para2,para3,slug)
 

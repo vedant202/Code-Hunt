@@ -20,6 +20,7 @@
 }
 
 .gridItem{
+    max-width: 29vw;
     background-color: #fff;
     border-radius: 0.4rem;
     overflow: hidden;
@@ -42,6 +43,8 @@
 
 .cardHeader{
     padding: 1rem;
+    margin-top: 18px;
+
 }
 
 .head{

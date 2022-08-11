@@ -12,6 +12,7 @@ const blogSchema = new mongoose.Schema({
     para1:String,
     para2:String,
     para3:String,
+    slug:String,
 })
 
 module.exports.blogSchema = blogSchema

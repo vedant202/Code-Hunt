@@ -17,10 +17,7 @@ export default function handler1(req,res){
             
             let blog = await blogModel.find().exec()
             // console.log(blog)
-            res.status(200).json(blog.map((d)=>{
-                console.log(d.Title)
-                return d.Title
-            }))
+            res.status(200).json(blog)
         }
     )
     .catch((err)=>{
