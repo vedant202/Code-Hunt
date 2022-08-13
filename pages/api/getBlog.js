@@ -17,7 +17,7 @@ export default function handler(req, res) {
         b = mongoose.model("blogs",blogSchema)
 
       }
-      const blog = await b.find( { Title: slug } ).exec()
+      const blog = await b.find( { slug: slug } ).exec()
       // let jblog = JSON.parse()
       console.log(blog)
       
