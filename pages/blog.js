@@ -4,22 +4,22 @@ import styles from '../styles/BlogList.module.css'
 import Link from 'next/link';
 
 
-const Blog = () => {
+const Blog = (props) => {
+  console.log(props)
+  const [data, setData] = useState(props.allBlogs);
+  
+  // useEffect(()=>{
+  //   console.log("Use Effect Is running");
 
-  const [data, setData] = useState([]);
-
-  useEffect(()=>{
-    console.log("Use Effect Is running");
-
-    fetch('http://localhost:3000/api/allBlogs')
-    .then((data)=>{
-      return data.json()
-    })
-    .then((fetchedData)=>{
-      console.log(fetchedData)
-      setData(fetchedData);
-    })
-  },[])
+  //   fetch('http://localhost:3000/api/allBlogs')
+  //   .then((data)=>{
+  //     return data.json()
+  //   })
+  //   .then((fetchedData)=>{
+  //     console.log(fetchedData)
+  //     setData(fetchedData);
+  //   })
+  // },[])
 
   return (
     <div className={styles.mainContainer}>
@@ -50,5 +50,15 @@ const Blog = () => {
     </div>
   )
 }
+
+export async function getServerSideProps(context) {
+  let data = await fetch('http://localhost:3000/api/allBlogs')
+  let allBlogs = await data.json()
+
+  return {
+    props:{allBlogs}
+  }
+}
+
 
 export default Blog

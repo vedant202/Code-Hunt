@@ -4,22 +4,22 @@ import styles from '../../styles/BlogPost.module.css'
 import Image from 'next/image'
 
 
-const slug = () => {
-  const [data, setData] = useState()
+const slug = (props) => {
+  const [data, setData] = useState(props.blog)
 
-  const router = useRouter();
-  useEffect(()=>{
-    if(!router.isReady) return
-    const  { slug }= router.query; 
-    fetch(`http://localhost:3000/api/getBlog?slug=${slug}`)
-    .then((data)=>{
-      return data.json()
-    })
-    .then((fetched)=>{
-      console.log("Fetched",fetched)
-      setData(fetched)
-    })
-  },[router.isReady])
+  // const router = useRouter();
+  // useEffect(()=>{
+  //   if(!router.isReady) return
+  //   const  { slug }= router.query; 
+  //   fetch(`http://localhost:3000/api/getBlog?slug=${slug}`)
+  //   .then((data)=>{
+  //     return data.json()
+  //   })
+  //   .then((fetched)=>{
+  //     console.log("Fetched",fetched)
+  //     setData(fetched)
+  //   })
+  // },[router.isReady])
     
   console.log("Data",data)
   return (
@@ -53,6 +53,20 @@ const slug = () => {
         </div>
     </div>
   )
+}
+
+
+export async function getServerSideProps(context){
+  let { slug } = context.query;
+  console.log(slug)
+
+  let data = await fetch(`http://localhost:3000/api/getBlog?slug=${slug}`);
+  let blog = await data.json();
+
+  return {
+    props:{blog}
+  }
+
 }
 
 export default slug
