@@ -1,6 +1,6 @@
 import React from 'react'
 import styles from '../styles/About.module.css'
-import Image from 'next/image'
+// import Image from 'next/image'
 
 const About = () => {
   return (
@@ -22,7 +22,8 @@ const About = () => {
 
           <div className={styles.item2}>
             <span className={styles.item2Image}>
-              <Image src="/images/item2.jpg" width={345} height={345}></Image>
+              {/* <Image src="/images/item2.jpg" width={345} height={345}></Image> */}
+              <img src="/images/item2.jpg" width={345} height={345} alt="code hunt image" />
             </span>
           </div>
         </div>
@@ -32,7 +33,8 @@ const About = () => {
         <div className={styles.gridContainer2}>
           <div className={styles.C2item1}>
             <span className='C2Image2'>
-              <Image src="/images/item3.jpg" width={409} height={239}></Image>
+              {/* <Image src="/images/item3.jpg" width={409} height={239}></Image> */}
+              <img src="/images/item3.jpg" width={409} height={239} alt="code hunt image" />
             </span>
           </div>
           <div className={styles.C2item2}>
@@ -80,7 +82,8 @@ const About = () => {
 
           <div className={styles.C4item2}>
             <span className={styles.C4item2Image}>
-              <Image src="/images/item4.jpg" width={399} height={266}></Image>
+              {/* <Image src="/images/item4.jpg" width={399} height={266}></Image> */}
+              <img src="/images/item4.jpg" width={399} height={266} alt="code hunt image" />
             </span>
           </div>
         </div>

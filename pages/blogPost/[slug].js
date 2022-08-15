@@ -1,11 +1,12 @@
 import React, { useEffect,useState } from 'react'
 import {useRouter} from 'next/router'
 import styles from '../../styles/BlogPost.module.css'
-import Image from 'next/image'
+// import Image from 'next/image'
+import mongoose from "mongoose";
 
 
-const slug = (props) => {
-  const [data, setData] = useState(props.blog)
+const Slug = (props) => {
+  const [data, setData] = useState(props.jsonParsed)
 
   // const router = useRouter();
   // useEffect(()=>{
@@ -40,7 +41,8 @@ const slug = (props) => {
           {data && data[0].para1}
           </div>
           <div className={styles.rImage}>
-            <Image src="/images/item2.jpg" width={345} height={345}></Image>
+            {/* <Image src="/images/item2.jpg" width={345} height={345}></Image> */}
+            <img src="/images/item2.jpg" width={345} height={345} alt="code hunt image" />
           </div>
           <div className={styles.content2}>
             <p>
@@ -55,18 +57,106 @@ const slug = (props) => {
   )
 }
 
+// For Server-Side-Rendering
 
-export async function getServerSideProps(context){
-  let { slug } = context.query;
-  console.log(slug)
+// export async function getServerSideProps(context){
+//   let { slug } = context.query;
+//   console.log(slug)
 
-  let data = await fetch(`http://localhost:3000/api/getBlog?slug=${slug}`);
-  let blog = await data.json();
+//   let data = await fetch(`http://localhost:3000/api/getBlog?slug=${slug}`);
+//   let blog = await data.json();
 
-  return {
-    props:{blog}
+//   return {
+//     props:{blog}
+//   }
+
+// }
+
+//If a page has Dynamic Routes and uses getStaticProps, it needs to define a list of paths to be statically generated.
+
+export async function getStaticPaths(){
+  let allSlug;
+  try {
+    let mongooseConnect = await mongoose.connect("mongodb://localhost:27017/code_hunt");
+    const blogSchema = new mongoose.Schema({
+      Title: String,
+      Author: String,
+      Date: Date,
+      img: {
+        data: Buffer,
+        contentType: String,
+      },
+      para1: String,
+      para2: String,
+      para3: String,
+      slug: String,
+    });
+
+    
+    let blogModel 
+    try{
+      blogModel = mongoose.model("blogs")
+    }catch(error){
+      blogModel = mongoose.model("blogs",blogSchema)
+
+    }
+  
+    allSlug = await blogModel.find({},'slug').exec()
+    console.log("All Slugs in blogpost")
+    
+  } catch (error) {
+
+    console.log(error)
   }
-
+  
+  let slugs = allSlug.map(slug=>{
+    console.log(slug.slug)
+    return {params :{slug:slug.slug}}
+  })
+  console.log(slugs)
+  return {
+    paths:slugs,
+    fallback:false,
+  }
 }
 
-export default slug
+//For Static site rendering
+
+export async function getStaticProps(context){
+  let blog
+  let { slug } = context.params
+  try {
+    let mongooseConnect = await mongoose.connect("mongodb://localhost:27017/code_hunt");
+    const blogSchema = new mongoose.Schema({
+      Title: String,
+      Author: String,
+      Date: Date,
+      img: {
+        data: Buffer,
+        contentType: String,
+      },
+      para1: String,
+      para2: String,
+      para3: String,
+      slug: String,
+    });
+
+    let blogModel 
+    try{
+      blogModel = mongoose.model("blogs")
+    }catch(error){
+      blogModel = mongoose.model("blogs",blogSchema)
+
+    }
+    blog = await blogModel.find({ slug:slug }).exec()
+  } catch (error) {
+    console.log(error)
+  }
+  let jsonParsed = JSON.parse(JSON.stringify(blog));
+  // console.log(jsonParsed)
+  return {
+    props:{jsonParsed}
+  }
+}
+
+export default Slug
