@@ -1,0 +1,51 @@
+.addBlog{
+    margin-top: 6em;
+}
+
+.headTitle{
+    text-align: center;
+}
+
+.row{
+    display: flex;
+}
+
+.col1{
+    padding: 2em;
+    font-size: 21px;
+    font-weight: bold;
+    font-family: monospace;
+}
+
+.col2 textarea{
+    font-size: large;
+}
+
+
+.col2{
+    padding: 2em;
+}
+
+#author{
+    width: 76vw;
+    height: 15vh;
+}
+
+.submitBtn{
+    float: right;
+    margin-right: 5em
+}
+
+.imageControl{
+    margin-left: 3em;
+}
+
+#submit{
+    width: 10em;
+    height: 3em;
+    font-size: 1em;
+    font-weight: bold;
+    border: 2px solid burlywood;
+    border-radius: 10px;
+    cursor: pointer;
+}

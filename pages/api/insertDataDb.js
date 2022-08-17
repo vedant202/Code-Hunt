@@ -9,15 +9,20 @@ function addData(title,author,para1,para2,para3,slug){
         async ()=>{
             const blogModel = mongoose.model('Blogs',blogSchema.blogSchema)
 
-            const addBlog = new blogModel({
-                Title:title,
-                Author:author,
-                Date:new Date,
-                img:null,
-                para1:para1,
-                para2:para2,
-                para3:para3,
-                slug:slug
+            const blogSchema = new mongoose.Schema({
+                Title:String,
+                Author:String,
+                Date:Date,
+                img:
+                {
+                    data: Buffer,
+                    contentType: String,
+                },
+                para1:String,
+                para2:String,
+                para3:String,
+                slug:String,
+                metaDesc:String,
             })
 
             await addBlog.save(function(err){
