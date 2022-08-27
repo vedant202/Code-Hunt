@@ -13,6 +13,6 @@ const blogSchema = new mongoose.Schema({
     para2:String,
     para3:String,
     slug:String,
+    metaDesc:String,
 })
-
-module.exports.blogSchema = blogSchema
+module.exports = {blogSchema}

@@ -79,18 +79,20 @@ export async function getStaticPaths(){
   try {
     let mongooseConnect = await mongoose.connect("mongodb://localhost:27017/code_hunt");
     const blogSchema = new mongoose.Schema({
-      Title: String,
-      Author: String,
-      Date: Date,
-      img: {
-        data: Buffer,
-        contentType: String,
+      Title:String,
+      Author:String,
+      Date:Date,
+      img:
+      {
+          data: Buffer,
+          contentType: String,
       },
-      para1: String,
-      para2: String,
-      para3: String,
-      slug: String,
-    });
+      para1:String,
+      para2:String,
+      para3:String,
+      slug:String,
+      metaDesc:String,
+  })
 
     
     let blogModel 
