@@ -15,5 +15,4 @@ const blogSchema = new mongoose.Schema({
     slug:String,
     metaDesc:String,
 })
-
-module.exports.blogSchema = blogSchema
+module.exports = {blogSchema}

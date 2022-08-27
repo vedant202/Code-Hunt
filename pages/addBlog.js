@@ -27,9 +27,14 @@ const AddBlog=()=>{
         const config = {
             headers:{'content-type':'multipart/form-data'},
         }
-        const response = await axios.post('/api/submitBlogData/submitBlogData',formData,config)
+        try {
+            const response = await axios.post('/api/submitBlogData/submitBlogData',formData,config)
 
-        console.log(response.data);
+            console.log(response.data);
+        
+        } catch (error) {
+            console.error(error.response.data);
+        }
         // console.log(formData);
     }
 
