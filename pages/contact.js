@@ -1,7 +1,68 @@
-import React from 'react'
+import React,{useState} from 'react'
 import styles from "../styles/Contact.module.css";
+import axios from 'axios';
 
 const contact = () => {
+  
+  const [name, setname] = useState('')
+  const [email, setemail] = useState('')
+  const [phone, setphone] = useState('')
+  const [desc, setdesc] = useState('')
+
+
+  const emailValidate = (input)=>{
+    const validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9]+(?:\.[a-zA-Z0-9-]+)*$/;
+    if(input.match(validRegex)){
+      console.log("Valid Email");
+
+    }
+    else{
+      console.log("Invalid email");
+    }
+  }
+
+  const handleChange = (e)=>{
+    console.log(e,"change")
+    if(e.target.name=='name'){
+      setname(e.target.value);
+    }
+    else if(e.target.name == 'email'){
+      
+      setemail(e.target.value);
+    }
+    else if(e.target.name == 'phone'){
+      setphone(e.target.value);
+    }
+    else if(e.target.name == 'desc'){
+      setdesc(e.target.value);
+    }
+  }
+  
+  const date = new Date();
+
+
+  const handleSubmit = async(e)=>{
+    e.preventDefault();
+    const data={
+      name:name,
+      email:email,
+      phone:phone,
+      desc:desc
+    }
+    emailValidate(email);
+    try {
+      const config = {
+        headers:{'content-type':'application/json'}
+      }
+      let response = await axios.post('/api/submitContactData/postContactData',JSON.stringify(data),config);
+      console.log(response.data)
+    } catch (error) {
+      
+    }
+    console.log(name,email,phone,desc);
+
+  }
+
   return (
     <div className={styles.container}>
       <div className={styles.rows}>
@@ -37,37 +98,37 @@ const contact = () => {
           
         </div>
         <div className={styles.col2}>
-            <form action="">
+            <form onSubmit={handleSubmit} action="">
               <div className={styles.row}>
                 <div className={styles.col}>
                   <label>Name</label>
-                  <input type="text" name='name' id='name' required/>
+                  <input type="text" onChange={handleChange} name='name' id='name' required/>
                 </div>
               </div>
 
               <div className={styles.row}>
                 <div className={styles.col}>
                   <label>Email</label>
-                  <input type="email" name='email' id='email' required/>
+                  <input type="email" onChange={handleChange} name='email' id='email' required/>
                 </div>
               </div>
 
               <div className={styles.row}>
                 <div className={styles.col}>
                   <label>Phone</label>
-                  <input type="phone" name='phone' id='phone' required/>
+                  <input type="tel" onChange={handleChange} name='phone' id='phone' required/>
                 </div>
               </div>
 
               <div className={styles.row}>
                 <div className={styles.col}>
                   <label>Message</label>
-                  <input type="text" name='desc' id='desc' required/>
+                  <textarea type="text" onChange={handleChange} name='desc' rows={7} id='desc' required/>
                 </div>
               </div>
 
               <div className={styles.submitButton}>
-                <button type="submit" name='submit' id='submit'>Send Message</button>
+                <button type="submit"  name='submit' id='submit'>Send Message</button>
               </div>
 
             </form>

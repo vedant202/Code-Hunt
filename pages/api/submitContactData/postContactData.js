@@ -13,7 +13,7 @@ const handler = nc({
 })
 
 handler.post((req,res)=>{
-    console.log(req.body);
+    // console.log(req.body);
     const con_data = req.body;
     let send_json;
     try{
