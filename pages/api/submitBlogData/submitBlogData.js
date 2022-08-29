@@ -44,11 +44,11 @@ apiRoute.post((req,res)=>{
     const data = req.body;
     const imageFile = req.file;
     console.log("Image Name:- "+imageFile.filename);
-    
+    const date = new Date();
     const blogData = {
         Title:data.Title,
                 Author:data.Author,
-                
+                Date:date.getDate()+'-'+date.getMonth()+'-'+date.getFullYear(),
                 img:
                 {
                     data: readFileSync("C:/Users/DELL/OneDrive/Documents/NextJs/code_hunt/public/uploads/"+imageFile.filename),

@@ -1,0 +1,213 @@
+Author,Title,__v,_id,img.contentType,metaDesc,para1,para2,para3,slug
+Vedant Dhenge,"How to use React, next-connect, Multer, and axios to upload files to your Next.js app
+",0,6309d820b6292c4f760ad9a9,image/png,"How to use React, next-connect, Multer, and axios to upload files to your Next.js app
+
+I am going to give a brief overview of how to upload files with React and Next.js API routes. In this article, I will assume you are familiar with adding npm packages and with using Next.js, and that you have created an API route before.
+
+","I am going to give a brief overview of how to upload files with React and Next.js API routes. In this article, I will assume you are familiar with adding npm packages and with using Next.js, and that you have created an API route before.
+
+Below is a simple example of a Next.js API route.
+
+export default (req, res) => {
+  if (req.method === 'POST') {
+    // Process a POST request
+    res.status(200).json({ data: 'success' });
+  } else {
+    // Handle any other HTTP method
+    res.status(405).json({ error: `Method '${req.method}' Not Allowed` });
+  }
+};
+
+To make things easier when it comes to adding middleware to the API routes, we are going to use the next-connect library.
+
+","next-connect
+
+next-connect is a router and middleware layer for Next.js, Micro, or Node.js HTTP servers. It will make method routing and adding middleware easier.
+
+After adding the next-connect library, we can refactor the above API route code into the next-connect format below. The syntax is very similar to Express.js.
+
+import nextConnect from 'next-connect';
+
+const apiRoute = nextConnect({
+  // Handle any other HTTP method
+  onNoMatch(req, res) {
+    res.status(405).json({ error: `Method '${req.method}' Not Allowed` });
+  },
+});
+
+// Process a POST request
+apiRoute.post((req, res) => {
+  res.status(200).json({ data: 'success' });
+});
+
+export default apiRoute;
+
+
+Now that we have updated our Next.js API route we can add the Multer middleware library to next-connect to handle that file upload for us.
+
+","Multer
+Multer is a Node middleware for handling multipart/form data and is primarily used for uploading files.
+
+After adding the Multer library, let's add it to the API route code above. Read the comments in the example below for how we add Multer to next-connect.
+
+
+import nextConnect from 'next-connect';
+import multer from 'multer';
+
+// Returns a Multer instance that provides several methods for generating 
+// middleware that process files uploaded in multipart/form-data format.
+const upload = multer({
+  storage: multer.diskStorage({
+    destination: './public/uploads',
+    filename: (req, file, cb) => cb(null, file.originalname),
+  }),
+});
+
+const apiRoute = nextConnect({/* ... */});
+
+// Returns middleware that processes multiple files sharing the same field name.
+const uploadMiddleware = upload.array('theFiles');
+
+// Adds the middleware to Next-Connect
+apiRoute.use(uploadMiddleware);
+
+apiRoute.post((req, res) => {
+...
+
+
+Looking at lines 6–11, we create a Multer instance and provide a config object to set the storage type. We set the destination to public/uploads so the uploaded files could be publicly accessed by the Next.js app. The destination can be a string or a function. When destination is a function, you are responsible for creating the directory structure. For the filename, we use a function to get the original name from the uploaded file.
+Looking at lines 16 & 19, we create the actual middleware when doing upload.array(‘theFiles’). Note: We are using .array() in the example above, which allows us to upload multiple files, but Multer has other methods, like .single(), for just uploading a single file. Read the docs and see which one is best for your situation. Finally, we pass the created middleware to apiRoute.use() where next-connect will use it within the API route.
+That is it for setting up a basic implementation of Multer, but there is one more step to finish off our File Upload API route.
+
+","How-to-use-React,-next-connect,-Multer-and-axios-to-upload-files-to-your-Next.js-app"
+Vedant Dhenge,React Js Tutorial,0,630a01b0b6292c4f760ad9c9,image/png,"ReactJS is a declarative, efficient, and flexible JavaScript library for building reusable UI components. It is an open-source, component-based front end library which is responsible only for the view layer of the application.","<p><strong>React</strong>&nbsp;(also known as&nbsp;<strong>React.js</strong>&nbsp;or&nbsp;<strong>ReactJS</strong>) is a&nbsp;<a href=""https://en.wikipedia.org/wiki/Free_and_open-source_software"" title=""Free and open-source software"">free and open-source</a>&nbsp;<a href=""https://en.wikipedia.org/wiki/Front_end_and_back_end"" title=""Front end and back end"">front-end</a>&nbsp;<a href=""https://en.wikipedia.org/wiki/JavaScript_library"" title=""JavaScript library"">JavaScript library</a><sup><a href=""https://en.wikipedia.org/wiki/React_(JavaScript_library)#cite_note-react-3"">[3]</a></sup>&nbsp;for building&nbsp;<a href=""https://en.wikipedia.org/wiki/User_interfaces"" title=""User interfaces"">user interfaces</a>&nbsp;based on UI components. It is maintained by&nbsp;<a href=""https://en.wikipedia.org/wiki/Meta_Platforms"" title=""Meta Platforms"">Meta</a>&nbsp;(formerly Facebook) and a community of individual developers and companies.<sup><a href=""https://en.wikipedia.org/wiki/React_(JavaScript_library)#cite_note-4"">[4]</a></sup><sup><a href=""https://en.wikipedia.org/wiki/React_(JavaScript_library)#cite_note-5"">[5]</a></sup><sup><a href=""https://en.wikipedia.org/wiki/React_(JavaScript_library)#cite_note-6"">[6]</a></sup>&nbsp;React can be used as a base in the development of&nbsp;<a href=""https://en.wikipedia.org/wiki/Single-page_application"" title=""Single-page application"">single-page</a>, mobile, or server-rendered applications with frameworks like&nbsp;<a href=""https://en.wikipedia.org/wiki/Next.js"" title=""Next.js"">Next.js</a>. However, React is only concerned with state management and rendering that state to the&nbsp;<a href=""https://en.wikipedia.org/wiki/Document_Object_Model"" title=""Document Object Model"">DOM</a>, so creating React applications usually requires the use of additional libraries for routing, as well as certain client-side functionality.</p>
+
+<p>ReactJS tutorial provides basic and advanced concepts of ReactJS. Currently, ReactJS is one of the most popular JavaScript front-end libraries which has a strong foundation and a large community.</p>
+
+<p>ReactJS is a&nbsp;<strong>declarative</strong>,&nbsp;<strong>efficient</strong>, and flexible&nbsp;<strong>JavaScript library</strong>&nbsp;for building reusable UI components. It is an open-source, component-based front end library which is responsible only for the view layer of the application. It was initially developed and maintained by Facebook and later used in its products like WhatsApp &amp; Instagram.</p>
+
+<p>Our ReactJS tutorial includes all the topics which help to learn ReactJS. These are ReactJS Introduction, ReactJS Features, ReactJS Installation, Pros and Cons of ReactJS, ReactJS JSX, ReactJS Components, ReactJS State, ReactJS Props, ReactJS Forms, ReactJS Events, ReactJS Animation and many more.</p>
+
+<p>&nbsp;</p>
+","<h2>Why we use ReactJS?</h2>
+
+<p>The main objective of ReactJS is to develop User Interfaces (UI) that improves the speed of the apps. It uses virtual DOM (JavaScript object), which improves the performance of the app. The JavaScript virtual DOM is faster than the regular DOM. We can use ReactJS on the client and server-side as well as with other frameworks. It uses component and data patterns that improve readability and helps to maintain larger apps.</p>
+
+<p>&nbsp;</p>","<h1>React Introduction</h1>
+
+<p>ReactJS is a declarative, efficient, and flexible JavaScript library for building reusable UI components. It is an open-source, component-based front end library responsible only for the view layer of the application. It was created by&nbsp;<strong>Jordan Walke,</strong>&nbsp;who was a software engineer at&nbsp;<strong>Facebook.</strong>&nbsp;It was initially developed and maintained by Facebook and was later used in its products like&nbsp;<strong>WhatsApp</strong>&nbsp;&amp;&nbsp;<strong>Instagram.</strong>&nbsp;Facebook developed ReactJS in&nbsp;<strong>2011</strong>&nbsp;in its newsfeed section, but it was released to the public in the month of&nbsp;<strong>May 2013.</strong></p>
+
+<p>Today, most of the websites are built using MVC (model view controller) architecture. In MVC architecture, React is the &#39;V&#39; which stands for view, whereas the architecture is provided by the Redux or Flux.</p>
+
+<p>A ReactJS application is made up of multiple components, each component responsible for outputting a small, reusable piece of HTML code. The components are the heart of all React applications. These Components can be nested with other components to allow complex applications to be built of simple building blocks. ReactJS uses virtual DOM based mechanism to fill data in HTML DOM. The virtual DOM works fast as it only changes individual DOM elements instead of reloading complete DOM every time.</p>
+
+<p>To create React app, we write React components that correspond to various elements. We organize these components inside higher level components which define the application structure. For example, we take a form that consists of many elements like input fields, labels, or buttons. We can write each element of the form as React components, and then we combine it into a higher-level component, i.e., the form component itself. The form components would specify the structure of the form along with elements inside of it.</p>
+
+<p>&nbsp;</p>
+",ReactJs-Tutorial
+Vedant Dhenge,ReactJs Installation,0,630a06e5b6292c4f760ad9d4,image/png,"In this section, we will learn how to set up an environment for the successful development of ReactJS application.","<h1>React Environment Setup</h1>
+
+<p>In this section, we will learn how to set up an environment for the successful development of ReactJS application.</p>
+
+<h2>Pre-requisite for ReactJS</h2>
+
+<ol>
+	<li>NodeJS and NPM</li>
+	<li>React and React DOM</li>
+	<li>Webpack</li>
+	<li>Babel</li>
+</ol>
+
+<h2>Ways to install ReactJS</h2>
+
+<p>There are two ways to set up an environment for successful ReactJS application. They are given below.</p>
+
+<ol>
+	<li>Using the npm command</li>
+	<li>Using the create-react-app command</li>
+</ol>
+
+<h3>1. Using the npm command</h3>
+
+<p><strong>Install NodeJS and NPM</strong></p>
+
+<p>NodeJS and NPM are the platforms need to develop any ReactJS application. You can install NodeJS and NPM package manager by the link given below.</p>
+
+<p>to verify NodeJS and NPM, use the command shown in the below code.</p>
+
+<p>node -v</p>
+
+<p>This code tells the version on nodejs installed.</p>
+
+<p>v9.11.2</p>
+
+<p><strong>Install React and React DOM</strong></p>
+
+<p>Create a&nbsp;<strong>root</strong>&nbsp;folder with the name&nbsp;<strong>reactApp</strong>&nbsp;on the desktop or where you want. Here, we create it on the desktop. You can create the folder directly or using the command given below.</p>
+
+<p>&nbsp;</p>
+
+<p><img alt=""React Environment Setup"" src=""https://static.javatpoint.com/tutorial/reactjs/images/reactjs-environment-setup1.png"" /></p>
+
+<p>Now, you need to create a&nbsp;<strong>package.json</strong>&nbsp;file. To create any module, it is required to generate a package.json file in the project folder. To do this, you need to run the following command as shown in the below image.</p>
+
+<p>npm&nbsp;init&nbsp;-y&nbsp;&nbsp;<br />
+<br />
+<img alt=""React Environment Setup"" src=""https://static.javatpoint.com/tutorial/reactjs/images/reactjs-environment-setup2.png"" /></p>
+
+<p>After creating a package.json file, you need to install&nbsp;<strong>react</strong>&nbsp;and its DOM&nbsp;<strong>packages</strong>&nbsp;using the following npm command in the terminal window as shown in the below image.</p>
+
+<p>npm&nbsp;install&nbsp;react&nbsp;react-dom&nbsp;--save</p>
+
+<p>You can also use the above command separately which can be shown as below.</p>
+
+<p>npm&nbsp;install&nbsp;react&nbsp;--save&nbsp;</p>
+
+<p>npm&nbsp;install&nbsp;react-dom&nbsp;--save&nbsp;</p>
+
+<p><strong>Install Webpack</strong></p>
+
+<p>Webpack is used for module packaging, development, and production pipeline automation. We will use&nbsp;<strong>webpack-dev-server</strong>&nbsp;during development,&nbsp;<strong>webpack</strong>&nbsp;to create production builds, and&nbsp;<strong>webpack CLI</strong>&nbsp;provides a set of commands. Webpack compiles these into a single file(bundle). To install webpack use the command shown in the below image.</p>
+
+<ol start=""1""><br />
+	<br />
+	&nbsp;
+</ol>
+","<p><strong>Install Webpack</strong></p>
+
+<p>Webpack is used for module packaging, development, and production pipeline automation. We will use&nbsp;<strong>webpack-dev-server</strong>&nbsp;during development,&nbsp;<strong>webpack</strong>&nbsp;to create production builds, and&nbsp;<strong>webpack CLI</strong>&nbsp;provides a set of commands. Webpack compiles these into a single file(bundle). To install webpack use the command shown in the below image.</p>
+
+<p>&nbsp;</p>
+
+<p><br />
+<img alt=""React Environment Setup"" src=""https://static.javatpoint.com/tutorial/reactjs/images/reactjs-environment-setup4.png"" /></p>
+
+<p>You can also use the above command separately which can be shown as below.</p>
+
+<ol start=""1"">
+	<li>javatpoint@root:~/Desktop/reactApp&gt;npm&nbsp;install&nbsp;webpack&nbsp;--save&nbsp;&nbsp;</li>
+	<li>javatpoint@root:~/Desktop/reactApp&gt;npm&nbsp;install&nbsp;webpack-dev-server&nbsp;--save&nbsp;&nbsp;</li>
+	<li>javatpoint@root:~/Desktop/reactApp&gt;npm&nbsp;install&nbsp;webpack-cli&nbsp;--save&nbsp;&nbsp;</li>
+</ol>
+
+<p><strong>Install Babel</strong></p>
+
+<p>Babel is a JavaScript compiler and transpiler used to convert one source code to others. It compiles React JSX and ES6 to ES5 JavaScript which can be run on all browsers. We need&nbsp;<strong>babel-loader</strong>&nbsp;for JSX file types,&nbsp;<strong>babel-preset-react</strong>&nbsp;makes your browser update automatically when any changes occur to your code without losing the current state of the app. ES6 support requires&nbsp;<strong>babel-preset-env</strong>&nbsp;Babel preset. To install webpack use the following command shown in the below image.</p>
+
+<ol start=""1"">
+	<li>javatpoint@root:~/Desktop/reactApp&gt;npm&nbsp;install&nbsp;babel-core&nbsp;babel-loader&nbsp;babel-preset-env&nbsp;babel-preset-react&nbsp;babel-webpack-plugin&nbsp;--save-dev&nbsp;&nbsp;</li>
+</ol>
+
+<p><br />
+<img alt=""React Environment Setup"" src=""https://static.javatpoint.com/tutorial/reactjs/images/reactjs-environment-setup5.png"" /></p>
+
+<p>You can also use the above command separately which can be shown as below.</p>
+
+<ol start=""1"">
+	<li>javatpoint@root:~/Desktop/reactApp&gt;npm&nbsp;install&nbsp;babel-core&nbsp;--save-dev&nbsp;&nbsp;</li>
+	<li>javatpoint@root:~/Desktop/reactApp&gt;npm&nbsp;install&nbsp;babel-loader&nbsp;--save-dev&nbsp;&nbsp;</li>
+	<li>javatpoint@root:~/Desktop/reactApp&gt;npm&nbsp;install&nbsp;babel-preset-env&nbsp;--save-dev&nbsp;&nbsp;</li>
+	<li>javatpoint@root:~/Desktop/reactApp&gt;npm&nbsp;install&nbsp;babel-preset-react&nbsp;--save-dev&nbsp;&nbsp;</li>
+	<li>javatpoint@root:~/Desktop/reactApp&gt;npm&nbsp;install&nbsp;babel-webpack-plugin&nbsp;--save-dev</li>
+</ol>
+",,reactjs-installation

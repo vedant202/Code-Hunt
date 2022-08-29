@@ -22,6 +22,10 @@ const Slug = (props) => {
   //   })
   // },[router.isReady])
     
+  function createMarkup(c) {
+    return {__html: c};
+  }
+
   console.log("Data",data)
   return (
     <div className={styles.mainContainer}>
@@ -38,7 +42,9 @@ const Slug = (props) => {
 
       <div className={styles.mainBody}>
           <div className={styles.content1}>
-          {data && data[0].para1}
+            {/* Dangerously setting and parsing html */}
+          {data && <div dangerouslySetInnerHTML={createMarkup(data[0].para1)}></div>}
+          
           </div>
           <div className={styles.rImage}>
             {/* <Image src="/images/item2.jpg" width={345} height={345}></Image> */}
@@ -46,10 +52,19 @@ const Slug = (props) => {
           </div>
           <div className={styles.content2}>
             <p>
-            {data && data[0].para2}
+            {/* {data && data[0].para2} */}
+
+                        {/* Dangerously setting and parsing html */}
+
+            {data && <div dangerouslySetInnerHTML={createMarkup(data[0].para2)}></div>}
             </p>
             <p>
-            {data && data[0].para3}
+
+            {/* {data && data[0].para3} */}
+
+                        {/* Dangerously setting and parsing html */}
+
+            {data && <div dangerouslySetInnerHTML={createMarkup(data[0].para3)}></div>}
             </p>
           </div>
         </div>
